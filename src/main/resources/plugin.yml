@@ -1,0 +1,9 @@
+name: Man10Texture
+version: @version@
+softdepend:
+  - Man10CommonLibs
+main: red.man10.man10texture.Man10Texture
+api-version: 1.13
+commands:
+  mtex:
+    default: op
