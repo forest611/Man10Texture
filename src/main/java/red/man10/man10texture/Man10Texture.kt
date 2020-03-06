@@ -8,6 +8,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
@@ -110,6 +111,7 @@ class Man10Texture : JavaPlugin(),Listener {
         val number = e.inventory.getItem(49)!!.itemMeta.displayName.toInt()
 
         if (e.slot <45){
+            if (e.slotType != InventoryType.SlotType.CONTAINER)return
             p.inventory.addItem(e.currentItem)
             return
         }
