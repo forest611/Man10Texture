@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Man10Texture-1.0">
+    <output-path>$PROJECT_DIR$/../../paper/plugins</output-path>
+    <root id="archive" name="Man10Texture-1.0.jar">
+      <element id="dir-copy" path="$PROJECT_DIR$/src/main/resources" />
+      <element id="module-output" name="Man10Texture.main" />
+    </root>
+  </artifact>
+</component>
