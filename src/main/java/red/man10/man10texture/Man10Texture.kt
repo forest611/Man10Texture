@@ -12,6 +12,7 @@ import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
+import java.lang.Exception
 
 class Man10Texture : JavaPlugin(),Listener {
 
@@ -24,7 +25,26 @@ class Man10Texture : JavaPlugin(),Listener {
 
         if (!sender.hasPermission("man10tex.op"))return false
 
-        openInventory(sender,0)
+        if (args.isEmpty()){
+            openInventory(sender,0,Material.DIAMOND_HOE)
+            return true
+        }
+
+        if (args[0] == "hand"){
+            openInventory(sender,0,sender.inventory.itemInMainHand.type)
+            return true
+        }
+
+        if (args[0] == "get"){
+            try {
+                val id = sender.inventory.itemInMainHand.itemMeta.customModelData
+                sender.sendMessage("§a§l$id")
+            }catch (e:Exception){
+                logger.info(e.message)
+                sender.sendMessage("§a§l0")
+            }
+            return true
+        }
 
         return false
     }
@@ -39,16 +59,16 @@ class Man10Texture : JavaPlugin(),Listener {
         // Plugin shutdown logic
     }
 
-    fun openInventory(p:Player,n:Int){
+    fun openInventory(p:Player,n:Int,type:Material){
 
         var number = n
 
         if (number <0)number = 0
 
-        val inv = Bukkit.createInventory(null,54,prefix)
+        val inv = Bukkit.createInventory(null,54,prefix + number)
 
         for (i in number..number+44){
-            val item = ItemStack(Material.DIAMOND_HOE,1)
+            val item = ItemStack(type,1)
             val meta = item.itemMeta
             meta.setCustomModelData(i)
             meta.setDisplayName("§a§lCustom Model Data = $i")
@@ -104,11 +124,13 @@ class Man10Texture : JavaPlugin(),Listener {
 
         val p = e.whoClicked as Player
 
-        if (e.view.title != prefix)return
+        if (e.view.title.indexOf(prefix) != 0)return
 
         e.isCancelled = true
 
         val number = e.inventory.getItem(49)!!.itemMeta.displayName.toInt()
+
+        val item = e.inventory.getItem(0)!!
 
         if (e.slot <45){
             if (e.slotType != InventoryType.SlotType.CONTAINER)return
@@ -117,15 +139,15 @@ class Man10Texture : JavaPlugin(),Listener {
         }
 
         when(e.slot){
-            45-> openInventory(p,number - 10000)
-            46-> openInventory(p,number - 1000)
-            47-> openInventory(p,number - 100)
-            48-> openInventory(p,number - 45)
+            45-> openInventory(p,number - 10000,item.type)
+            46-> openInventory(p,number - 1000,item.type)
+            47-> openInventory(p,number - 100,item.type)
+            48-> openInventory(p,number - 45,item.type)
 
-            50-> openInventory(p,number + 45)
-            51-> openInventory(p,number + 100)
-            52-> openInventory(p,number + 1000)
-            53-> openInventory(p,number + 10000)
+            50-> openInventory(p,number + 45,item.type)
+            51-> openInventory(p,number + 100,item.type)
+            52-> openInventory(p,number + 1000,item.type)
+            53-> openInventory(p,number + 10000,item.type)
 
             else -> return
         }
