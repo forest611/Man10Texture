@@ -32,14 +32,14 @@ class Man10Texture : JavaPlugin(),Listener {
         if (!sender.hasPermission("man10tex.op"))return false
 
         if (args.isEmpty()){
-            openInventory(sender,mapCmd[sender]?:0,Material.DIAMOND_HOE)
-            return true
-        }
 
-        if (args[0] == "hand"){
             openInventory(sender,0,sender.inventory.itemInMainHand.type)
             return true
         }
+
+//        if (args[0] == "hand"){
+//            return true
+//        }
 
         //手持ちアイテムのcmdチェック
         if (args[0] == "get"){
@@ -73,6 +73,8 @@ class Man10Texture : JavaPlugin(),Listener {
     }
 
     fun openInventory(p:Player,n:Int,type:Material){
+
+        if (type == Material.AIR)return
 
         var number = n
 
@@ -218,7 +220,7 @@ class Man10Texture : JavaPlugin(),Listener {
 
         if (e.slot <45){
             if (e.slotType != InventoryType.SlotType.CONTAINER)return
-            p.inventory.addItem(e.currentItem)
+            p.inventory.addItem(e.currentItem!!)
             return
         }
 
